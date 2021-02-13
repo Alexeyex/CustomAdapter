@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *  Адаптер - мост между данными и создаваемыми и управляемыми им View
+ * Адаптер - мост между данными и создаваемыми и управляемыми им View
  */
 public class ItemsDataAdapter extends BaseAdapter {
 
@@ -100,10 +100,19 @@ public class ItemsDataAdapter extends BaseAdapter {
         ImageView image = view.findViewById(R.id.icon);
         TextView title = view.findViewById(R.id.title);
         TextView subtitle = view.findViewById(R.id.subtitle);
+        Button dltBtn = view.findViewById(R.id.dltBtn);
 
         image.setImageDrawable(itemData.getImage());
         title.setText(itemData.getTitle());
         subtitle.setText(itemData.getSubtitle());
+
+        dltBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                items.remove(position);
+                notifyDataSetChanged();
+            }
+        });
 
         return view;
     }

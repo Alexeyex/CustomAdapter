@@ -9,10 +9,13 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
+
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -36,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         FloatingActionButton fab = findViewById(R.id.fab);
         ListView listView = findViewById(R.id.listView);
-        Button dltBtn = findViewById(R.id.dltBtn);
+
 
         setSupportActionBar(toolbar);
 
@@ -55,12 +58,6 @@ public class MainActivity extends AppCompatActivity {
         listView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
 
-        // При тапе по элементу списка будем показывать его данные
-        dltBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-            }
-        });
 
         // При долгом тапе по элементу списка будем удалять его
         listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
