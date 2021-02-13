@@ -1,12 +1,9 @@
 package com.example.listapp;
 
-import android.app.Activity;
-import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -17,7 +14,6 @@ import androidx.core.content.ContextCompat;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -29,7 +25,6 @@ public class MainActivity extends AppCompatActivity {
     private ItemsDataAdapter adapter;
     // Список картинок, которые мы будем брать для нашего списка
     private List<Drawable> images = new ArrayList<>();
-    private List<ItemData> items;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +34,6 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         FloatingActionButton fab = findViewById(R.id.fab);
         ListView listView = findViewById(R.id.listView);
-
 
         setSupportActionBar(toolbar);
 
@@ -56,14 +50,22 @@ public class MainActivity extends AppCompatActivity {
         // Создаем и устанавливаем адаптер на наш список
         adapter = new ItemsDataAdapter(this, null);
         listView.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
 
+        // При тапе по элементу списка будем показывать его данные
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                // Тут мы получаем и отображаем данные,
+                // но можно сделать и перейти в новую активити с этими данными
+                showItemData(position);
+            }
+        });
 
         // При долгом тапе по элементу списка будем удалять его
         listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                showItemData(position);
+                adapter.removeItem(position);
                 return true;
             }
         });
@@ -101,8 +103,8 @@ public class MainActivity extends AppCompatActivity {
         ItemData itemData = adapter.getItem(position);
         Toast.makeText(MainActivity.this,
                 "Title: " + itemData.getTitle() + "\n" +
-                        "Subtitle: " + itemData.getSubtitle(),
+                        "Subtitle: " + itemData.getSubtitle() + "\n" +
+                        "Checked: " + itemData.isChecked(),
                 Toast.LENGTH_SHORT).show();
     }
-
 }

@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
@@ -15,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Адаптер - мост между данными и создаваемыми и управляемыми им View
+ *  Адаптер - мост между данными и создаваемыми и управляемыми им View
  */
 public class ItemsDataAdapter extends BaseAdapter {
 
@@ -28,6 +27,12 @@ public class ItemsDataAdapter extends BaseAdapter {
 
     // Слушает все изменения галочки и меняет
     // состояние конкретного ItemData
+    private CompoundButton.OnCheckedChangeListener myCheckChangeList
+            = new CompoundButton.OnCheckedChangeListener() {
+        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            items.get((Integer) buttonView.getTag()).setChecked(isChecked);
+        }
+    };
 
 
     // Конструктор, в который передается контекст
@@ -100,19 +105,14 @@ public class ItemsDataAdapter extends BaseAdapter {
         ImageView image = view.findViewById(R.id.icon);
         TextView title = view.findViewById(R.id.title);
         TextView subtitle = view.findViewById(R.id.subtitle);
-        Button dltBtn = view.findViewById(R.id.dltBtn);
+        CheckBox checkBox = view.findViewById(R.id.checkbox);
 
         image.setImageDrawable(itemData.getImage());
         title.setText(itemData.getTitle());
         subtitle.setText(itemData.getSubtitle());
-
-        dltBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                items.remove(position);
-                notifyDataSetChanged();
-            }
-        });
+        checkBox.setOnCheckedChangeListener(myCheckChangeList);
+        checkBox.setTag(position);
+        checkBox.setChecked(itemData.isChecked());
 
         return view;
     }
